@@ -76,6 +76,22 @@
 		document.getElementById(nbProposition+"_"+pos).innerHTML = colors[color];
 
 		proposition.push(colors[color]);
+
+		if (proposition.length == 4) {
+			var submitButton = document.createElement("div");
+			var submitButtonContent = "<button>Soumettre</button>";
+
+			submitButton.setAttribute("id", "submit");
+			submitButton.setAttribute("onclick", "submit()");
+
+			submitButton.innerHTML = submitButtonContent;
+
+			document.getElementById("button").appendChild(submitButton);
+		}
+	}
+
+	function submit(){
+		alert("Combinaison maybe");
 	}
 
 </script>
