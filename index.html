@@ -1,0 +1,81 @@
+<h1>Mastermind</h1>
+
+<button onclick="init();">Nouvelle Partie</button>
+
+<div id="answer">
+	<span id="a_1"></span>
+	<span id="a_2"></span>
+	<span id="a_3"></span>
+	<span id="a_4"></span>
+</div>
+<div id="game">
+</div>
+
+<div id="button">
+</div>
+
+
+<script>
+	var colors = [
+		'red',
+		'blue',
+		'green',
+		'yellow',
+		'orange',
+		'violet',
+		'brown',
+		'grey'
+	];
+	
+	var game = [];
+
+	var nbProposition = 1;
+	var proposition = [];
+
+
+	function init() {
+		for (var i = 4; i >= 0; i--) {
+			var n = Math.floor(Math.random() * colors.length);
+			var color = colors[n];
+			game.push(color);
+		}
+
+		document.getElementById("a_1").innerHTML = "?";
+		document.getElementById("a_2").innerHTML = "?";
+		document.getElementById("a_3").innerHTML = "?";
+		document.getElementById("a_4").innerHTML = "?";
+
+		for (var i = 10; i >= 1; i--) {
+			var prop = document.createElement("div");
+			var pattern = i+" - <span id='"+i+"_1'></span><span id='"+i+"_2'></span><span id='"+i+"_3'></span><span id='"+i+"_4'></span>";
+
+			prop.setAttribute("id", "proposition_"+i);
+
+			prop.innerHTML = pattern;
+
+			document.getElementById("game").appendChild(prop);
+		}
+
+		for (var i = colors.length - 1; i >= 0; i--) {
+			var buttonColors = document.createElement("div");
+			var pattern = colors[i];
+
+			buttonColors.setAttribute("id", "button_"+i);
+			buttonColors.setAttribute("onclick", "add("+i+")");
+			buttonColors.setAttribute("class", "button_colors");
+
+			buttonColors.innerHTML = pattern;
+
+			document.getElementById("button").appendChild(buttonColors);
+		}
+	}
+
+	function add(color){
+		var pos = proposition.length+1;
+
+		document.getElementById(nbProposition+"_"+pos).innerHTML = colors[color];
+
+		proposition.push(colors[color]);
+	}
+
+</script>
