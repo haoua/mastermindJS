@@ -23,6 +23,7 @@
 				<select name="level" id="level">
 					<option value="1">Facile</option>
 					<option value="2">Difficile</option>
+					<option value="3">Extrême</option>
 				</select>
 
 				<button onclick="init();">Nouvelle Partie</button>
@@ -43,8 +44,9 @@
 			<div id="sidebar">
 				<h2>Règles</h2>
 				<p>Vous avez dix chances pour trouver la bonne combinaison.</p>
-				<p>En niveau <strong>facile</strong>, les pions réponses sont dans l'ordre des pions de votre combinaison.<br>
-				En niveau <strong>difficile</strong>, les pions réponses sont placés en ordre aléatoire</p>
+				<p>Au niveau <strong>facile</strong>, les pions réponses sont dans l'ordre des pions de votre combinaison.<br>
+				Au niveau <strong>difficile</strong>, les pions réponses sont placés en ordre aléatoire.<br>
+				Au niveau <strong>extrême</strong>, les pions réponses sont placés en ordre aléatoire, des cases peuvent être vide.</p>
 			</div>
 		</div>
 
@@ -70,10 +72,20 @@
 
 
 			function init() {
+				var levelSelect = document.getElementById("level");
+				level = levelSelect.options[levelSelect.selectedIndex].value;
+
 				if (game.length > 0) {
 					// if a game config is found, reset settings + display
 					reset();
 				}
+
+				// Extreme mode can have a cell empty
+				if (level == 3 && colors.indexOf("empty") == -1) {
+					colors.push("empty");
+				}
+
+
 
 				// REAL INIT ---------------
 				for (var i = 4; i >= 1; i--) {
@@ -110,12 +122,14 @@
 					buttonColors.setAttribute("onclick", "add("+i+")");
 					buttonColors.setAttribute("class", "button_colors "+pattern);
 
-					document.getElementById("button").appendChild(buttonColors);
-				}
+					if (pattern == "empty") {
+						buttonColors.innerHTML = "vide";
+					}
 
-				var levelSelect = document.getElementById("level");
-				level = levelSelect.options[levelSelect.selectedIndex].value;
-				console.log(level);
+				
+					document.getElementById("button").appendChild(buttonColors);
+
+				}
 			} // init()
 
 			function add(color){
@@ -163,7 +177,7 @@
 					}
 				}
 
-				if (level == 2) {
+				if (level != 1) {
 					shuffleResult(res);
 				}else{
 					displayResult(res);					
@@ -179,6 +193,7 @@
 				var resHTML = "";
 				var rightElement = 0;
 				for (var i = 0; i < result.length; i++) {
+
 					if (result[i] == 1) {
 					resHTML = resHTML+"<span class='res_element res_red'></span>";
 					rightElement++;
@@ -235,6 +250,12 @@
 				document.getElementById("game").innerHTML = "";
 				document.getElementById("button").innerHTML = "";
 				nbProposition = 1;
+				if(level != 3){
+					var emptyPlace = colors.indexOf("empty");
+					if (colors[emptyPlace] == "empty") {
+						colors.splice(colors.indexOf("empty"), 1);
+					}
+				}
 			} // reset()
 
 			function shootColor() {
@@ -251,7 +272,7 @@
 
 
 			function shuffleResult(res) {
-				console.log(res);
+				console.log("En res on avait : "+res);
 			  var resIndex = res.length;
 
 			  // While res is not empty
@@ -269,7 +290,7 @@
 
 			  }
 
-		    console.log(res);
+		    console.log("Maintenant on a : "+res);
 			  displayResult(res);
 			}
 

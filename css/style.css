@@ -24,7 +24,7 @@
 
 /* ---- PION COULEUR ---- */
 #button{
-	width: 400px;
+	width: 460px;
 }
 
 #button .button_colors{
@@ -46,6 +46,12 @@
 .violet{background-color: #9b59b6;}
 .brown{background-color: #594636;}
 .grey{background-color: #95a5a6;}
+
+.empty{
+	border: 1px solid #000;
+	text-align: center;
+	line-height: 50px;
+}
 
 
 
