@@ -155,16 +155,24 @@
 
 						document.getElementById("button").appendChild(submitButton);
 					}
+
+					if (proposition.length == 1){
+						var cancelButton = document.createElement("div");
+						var cancelButtonContent = "<button>Annuler</button>";
+
+						cancelButton.setAttribute("id", "cancel");
+						cancelButton.setAttribute("onclick", "cancel()");
+
+						cancelButton.innerHTML = cancelButtonContent;
+
+						document.getElementById("button").appendChild(cancelButton);
+					}
 				}
 			} // add(color)
 
 			function submit(){
 				var res = [];
-				for (var i = 0; i < proposition.length; i++) {
-					console.log("Proposition : "+proposition[i]);
-					console.log("Jeu : "+game[i]);
-					console.log("Ailleurs ? "+game.indexOf(proposition[i]));
-					
+				for (var i = 0; i < proposition.length; i++) {					
 					// Place is right, color is right
 					if (proposition[i] == game[i]) {
 						res.push(1);
@@ -185,8 +193,13 @@
 
 
 				nbProposition++;
-				console.log(proposition);
 				proposition = [];
+
+				// If proposition is submited, no need for Cancel Button
+				var cancelSubmit = document.getElementById("cancel");
+				cancelSubmit.outerHTML = "";
+				delete cancelSubmit;
+
 			} // submit();
 
 			function displayResult(result) {
@@ -208,7 +221,6 @@
 					}
 				}
 
-				console.log(result);
 
 				if (rightElement ==4) {
 					displayWin();
@@ -237,15 +249,20 @@
 				var audio = new Audio('sound/win.wav');
 				audio.play();
 				alert("you win !");
+
+				displayAnswer();
 			} //displayWin();
 
 			function displayLoose() {
 				var audio = new Audio('sound/lose.wav');
 				audio.play();
 				alert("you loose !");
+
+				displayAnswer();
 			} //displayWin();
 
 			function reset() {
+			// If a new game is require and a gam was already set
 				game = [];
 				document.getElementById("game").innerHTML = "";
 				document.getElementById("button").innerHTML = "";
@@ -259,6 +276,8 @@
 			} // reset()
 
 			function shootColor() {
+			// Setting Game Color
+
 				var n = Math.floor(Math.random() * colors.length);
 				var color = colors[n];
 
@@ -271,27 +290,69 @@
 			} // shootColor()
 
 
-			function shuffleResult(res) {
-				console.log("En res on avait : "+res);
+			function shuffleResult(res) { // Stackoverflox is my friend
+			// When level = 2 OR level = 3 > display result in random order
+			
 			  var resIndex = res.length;
 
 			  // While res is not empty
 			  while (0 !== resIndex) {
-			  	console.log("shuffle !")
-			  	console.log(resIndex);
 			    n = Math.floor(Math.random() * resIndex);
 			    resIndex -= 1;
 
 			    // And swap it with the current element.
 			    var temporaryValue = res[resIndex];
-			    console.log(temporaryValue);
 			    res[resIndex] = res[n];
 			    res[n] = temporaryValue;
 
 			  }
 
-		    console.log("Maintenant on a : "+res);
 			  displayResult(res);
+			} // shuffleResult();
+
+
+
+			function cancel() {
+			// User clicked on cancel button
+
+				for (var i = 4; i >= 1; i--) {
+
+					// Fix nb for array
+					propositionCell = i-1;
+
+					// if something is set in proposition array, remove class of color
+					if (proposition[propositionCell] != "") {
+						var cell = document.getElementById(nbProposition+'_'+i);
+						cell.classList.remove(proposition[propositionCell]);
+					}
+				}
+
+
+				// array is now empty
+				proposition = [];
+
+				// Once proposition is cancel, remove cancel button
+				var cancelSubmit = document.getElementById("cancel");
+				cancelSubmit.outerHTML = "";
+				delete cancelSubmit;
+			} // cancel()
+
+			function displayAnswer() {
+				document.getElementById("a_1").innerHTML = "";
+				document.getElementById("a_1").classList.add(game[0]);
+				document.getElementById("a_1").classList.remove('hidden');
+
+				document.getElementById("a_2").innerHTML = "";
+				document.getElementById("a_2").classList.add(game[1]);
+				document.getElementById("a_2").classList.remove('hidden');
+
+				document.getElementById("a_3").innerHTML = "";
+				document.getElementById("a_3").classList.add(game[2]);
+				document.getElementById("a_3").classList.remove('hidden');
+
+				document.getElementById("a_4").innerHTML = "";
+				document.getElementById("a_4").classList.add(game[3]);
+				document.getElementById("a_4").classList.remove('hidden');
 			}
 
 		</script>
