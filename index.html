@@ -34,7 +34,7 @@
 
 
 	function init() {
-		for (var i = 4; i >= 0; i--) {
+		for (var i = 4; i >= 1; i--) {
 			var n = Math.floor(Math.random() * colors.length);
 			var color = colors[n];
 			game.push(color);
@@ -47,7 +47,7 @@
 
 		for (var i = 10; i >= 1; i--) {
 			var prop = document.createElement("div");
-			var pattern = i+" - <span id='"+i+"_1'></span><span id='"+i+"_2'></span><span id='"+i+"_3'></span><span id='"+i+"_4'></span>";
+			var pattern = i+" - <span id='"+i+"_1'></span><span id='"+i+"_2'></span><span id='"+i+"_3'></span><span id='"+i+"_4'></span><span id='res_"+i+"'></span>";
 
 			prop.setAttribute("id", "proposition_"+i);
 
@@ -71,27 +71,73 @@
 	}
 
 	function add(color){
-		var pos = proposition.length+1;
+		// If user already set 4 colors
+		if (proposition.length != 4) {
+			var pos = proposition.length+1;
 
-		document.getElementById(nbProposition+"_"+pos).innerHTML = colors[color];
+			document.getElementById(nbProposition+"_"+pos).innerHTML = colors[color];
 
-		proposition.push(colors[color]);
+			proposition.push(colors[color]);
 
-		if (proposition.length == 4) {
-			var submitButton = document.createElement("div");
-			var submitButtonContent = "<button>Soumettre</button>";
+			// 4 colors are set, submit button appears
+			if (proposition.length == 4) {
+				var submitButton = document.createElement("div");
+				var submitButtonContent = "<button>Soumettre</button>";
 
-			submitButton.setAttribute("id", "submit");
-			submitButton.setAttribute("onclick", "submit()");
+				submitButton.setAttribute("id", "submit");
+				submitButton.setAttribute("onclick", "submit()");
 
-			submitButton.innerHTML = submitButtonContent;
+				submitButton.innerHTML = submitButtonContent;
 
-			document.getElementById("button").appendChild(submitButton);
+				document.getElementById("button").appendChild(submitButton);
+			}
 		}
 	}
 
 	function submit(){
-		alert("Combinaison maybe");
+		var res = [];
+		for (var i = 0; i < proposition.length; i++) {
+			// Place is right, color is right
+			if (proposition[i] == game[i]) {
+				res.push(1);
+			// Place is wrong, color is right, just somewhere else
+			}else if(game.indexOf(proposition[i]) > 0){
+				console.log(game.indexOf(proposition[i]));
+				res.push(2);
+			// Color is not right for this game
+			}else{
+				res.push(0);
+			}
+		}
+
+		displayResult(res);
+
+		nbProposition++;
+		proposition = [];
+	}
+
+	function displayResult(result) {
+		var resHTML = "";
+		for (var i = 0; i < result.length; i++) {
+			if (result[i] == 1) {
+				resHTML = resHTML+"<span>ROUGE</span>";
+			}else if(result[i] == 2){
+				resHTML = resHTML+"<span>BLANC</span>";
+			}else{
+				resHTML = resHTML+"<span></span>";
+			}
+		}
+
+		var result = document.createElement("div");
+
+		result.innerHTML = resHTML;
+
+		document.getElementById("res_"+nbProposition).appendChild(result);
+
+		// When result is display, remove submit button 
+		var buttonSubmit = document.getElementById("submit");
+		buttonSubmit.outerHTML = "";
+		delete buttonSubmit;
 	}
 
 </script>
