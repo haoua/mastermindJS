@@ -5,6 +5,11 @@
 	clear:both;
 }
 
+.invisible{display: none;}
+
+.left{float: left;}
+
+
 /* ---- ANSWER ---- */
 #answer span{
     box-sizing: border-box;
@@ -65,3 +70,10 @@
 .res_red{background-color: red;}
 .res_white{background-color: lightgrey;}
 .res_null{background-color: whitelightgrey;}
+
+
+/* ---- SIDEBAR ---- */
+#sidebar{
+	float: left;
+	width: 150px;
+}

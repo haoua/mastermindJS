@@ -18,18 +18,35 @@
 	<body>
 		<h1>Mastermind</h1>
 
-		<button onclick="init();">Nouvelle Partie</button>
+		<div class="clearfix">
+			<div class="left">
+				<select name="level" id="level">
+					<option value="1">Facile</option>
+					<option value="2">Difficile</option>
+				</select>
 
-		<div id="answer">
-			<span id="a_1"></span>
-			<span id="a_2"></span>
-			<span id="a_3"></span>
-			<span id="a_4"></span>
+				<button onclick="init();">Nouvelle Partie</button>
+
+
+				<div id="answer">
+					<span id="a_1"></span>
+					<span id="a_2"></span>
+					<span id="a_3"></span>
+					<span id="a_4"></span>
+				</div>
+
+				<div id="game"></div>
+
+				<div id="button" class="clearfix"></div>
+			</div>
+
+			<div id="sidebar">
+				<h2>Règles</h2>
+				<p>Vous avez dix chances pour trouver la bonne combinaison.</p>
+				<p>En niveau <strong>facile</strong>, les pions réponses sont dans l'ordre des pions de votre combinaison.<br>
+				En niveau <strong>difficile</strong>, les pions réponses sont placés en ordre aléatoire</p>
+			</div>
 		</div>
-
-		<div id="game"></div>
-
-		<div id="button" class="clearfix"></div>
 
 
 		<script>
@@ -49,6 +66,8 @@
 			var nbProposition = 1;
 			var proposition = [];
 
+			var level = 0;
+
 
 			function init() {
 				if (game.length > 0) {
@@ -56,7 +75,7 @@
 					reset();
 				}
 
-				// real init
+				// REAL INIT ---------------
 				for (var i = 4; i >= 1; i--) {
 					shootColor();
 				}
@@ -93,6 +112,10 @@
 
 					document.getElementById("button").appendChild(buttonColors);
 				}
+
+				var levelSelect = document.getElementById("level");
+				level = levelSelect.options[levelSelect.selectedIndex].value;
+				console.log(level);
 			} // init()
 
 			function add(color){
@@ -124,11 +147,15 @@
 			function submit(){
 				var res = [];
 				for (var i = 0; i < proposition.length; i++) {
+					console.log("Proposition : "+proposition[i]);
+					console.log("Jeu : "+game[i]);
+					console.log("Ailleurs ? "+game.indexOf(proposition[i]));
+					
 					// Place is right, color is right
 					if (proposition[i] == game[i]) {
 						res.push(1);
 					// Place is wrong, color is right, just somewhere else
-					}else if(game.indexOf(proposition[i]) > 0){
+					}else if(game.indexOf(proposition[i]) >= 0){
 						res.push(2);
 					// Color is not right for this game
 					}else{
@@ -136,9 +163,15 @@
 					}
 				}
 
-				displayResult(res);
+				if (level == 2) {
+					shuffleResult(res);
+				}else{
+					displayResult(res);					
+				}
+
 
 				nbProposition++;
+				console.log(proposition);
 				proposition = [];
 			} // submit();
 
@@ -159,6 +192,8 @@
 						resHTML = resHTML+'<br>';
 					}
 				}
+
+				console.log(result);
 
 				if (rightElement ==4) {
 					displayWin();
@@ -213,6 +248,30 @@
 					game.push(color);
 				}
 			} // shootColor()
+
+
+			function shuffleResult(res) {
+				console.log(res);
+			  var resIndex = res.length;
+
+			  // While res is not empty
+			  while (0 !== resIndex) {
+			  	console.log("shuffle !")
+			  	console.log(resIndex);
+			    n = Math.floor(Math.random() * resIndex);
+			    resIndex -= 1;
+
+			    // And swap it with the current element.
+			    var temporaryValue = res[resIndex];
+			    console.log(temporaryValue);
+			    res[resIndex] = res[n];
+			    res[n] = temporaryValue;
+
+			  }
+
+		    console.log(res);
+			  displayResult(res);
+			}
 
 		</script>
 	</body>
