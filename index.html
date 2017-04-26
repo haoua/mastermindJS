@@ -163,13 +163,17 @@
 				if (rightElement ==4) {
 					displayWin();
 				}else{
-					var audio = new Audio('sound/error.mp3');
-					audio.play();
-					var result = document.createElement("div");
+					if (nbProposition == 10) {
+						displayLoose();
+					}else{
+						var audio = new Audio('sound/error.mp3');
+						audio.play();
+						var result = document.createElement("div");
 
-					result.innerHTML = resHTML;
+						result.innerHTML = resHTML;
 
-					document.getElementById("res_"+nbProposition).appendChild(result);
+						document.getElementById("res_"+nbProposition).appendChild(result);
+					}
 					
 				}
 
@@ -185,12 +189,18 @@
 				alert("you win !");
 			} //displayWin();
 
+			function displayLoose() {
+				var audio = new Audio('sound/lose.wav');
+				audio.play();
+				alert("you loose !");
+			} //displayWin();
+
 			function reset() {
 				game = [];
 				document.getElementById("game").innerHTML = "";
 				document.getElementById("button").innerHTML = "";
 				nbProposition = 1;
-			}
+			} // reset()
 
 			function shootColor() {
 				var n = Math.floor(Math.random() * colors.length);
@@ -202,7 +212,7 @@
 				}else{
 					game.push(color);
 				}
-			}
+			} // shootColor()
 
 		</script>
 	</body>
