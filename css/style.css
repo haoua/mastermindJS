@@ -44,7 +44,24 @@
 
 
 
+/* ---- GAME ---- */
+#game div{
+	height: 50px;
+}
+
+
 /* ---- RESULT ---- */
 .results{
 	display: inline-block;
 }
+
+.res_element{
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+.res_red{background-color: red;}
+.res_white{background-color: lightgrey;}
+.res_null{background-color: whitelightgrey;}

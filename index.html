@@ -51,11 +51,17 @@
 
 
 			function init() {
-				for (var i = 4; i >= 1; i--) {
-					var n = Math.floor(Math.random() * colors.length);
-					var color = colors[n];
-					game.push(color);
+				if (game.length > 0) {
+					// if a game config is found, reset settings + display
+					reset();
 				}
+
+				// real init
+				for (var i = 4; i >= 1; i--) {
+					shootColor();
+				}
+
+				console.log(game);
 
 				document.getElementById("a_1").innerHTML = "?";
 				document.getElementById("a_1").setAttribute("class", "hidden button_colors");
@@ -138,13 +144,15 @@
 
 			function displayResult(result) {
 				var resHTML = "";
+				var rightElement = 0;
 				for (var i = 0; i < result.length; i++) {
 					if (result[i] == 1) {
-					resHTML = resHTML+"<span>ROUGE</span>";
+					resHTML = resHTML+"<span class='res_element res_red'></span>";
+					rightElement++;
 					}else if(result[i] == 2){
-					resHTML = resHTML+"<span>BLANC</span>";
+					resHTML = resHTML+"<span class='res_element res_white'></span>";
 					}else{
-					resHTML = resHTML+"<span>EMPTY</span>";
+					resHTML = resHTML+"<span class='res_element res_null'></span>";
 					}
 
 					if (i == 1) {
@@ -152,17 +160,49 @@
 					}
 				}
 
-				var result = document.createElement("div");
+				if (rightElement ==4) {
+					displayWin();
+				}else{
+					var audio = new Audio('sound/error.mp3');
+					audio.play();
+					var result = document.createElement("div");
 
-				result.innerHTML = resHTML;
+					result.innerHTML = resHTML;
 
-				document.getElementById("res_"+nbProposition).appendChild(result);
+					document.getElementById("res_"+nbProposition).appendChild(result);
+					
+				}
 
 				// When result is display, remove submit button 
 				var buttonSubmit = document.getElementById("submit");
 				buttonSubmit.outerHTML = "";
 				delete buttonSubmit;
 			} // displayResult(result);
+
+			function displayWin() {
+				var audio = new Audio('sound/win.wav');
+				audio.play();
+				alert("you win !");
+			} //displayWin();
+
+			function reset() {
+				game = [];
+				document.getElementById("game").innerHTML = "";
+				document.getElementById("button").innerHTML = "";
+				nbProposition = 1;
+			}
+
+			function shootColor() {
+				var n = Math.floor(Math.random() * colors.length);
+				var color = colors[n];
+
+				// Prevent color from being twice in game
+				if (game.indexOf(color) != -1) {
+					shootColor();
+				}else{
+					game.push(color);
+				}
+			}
 
 		</script>
 	</body>
