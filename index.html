@@ -1,143 +1,169 @@
-<h1>Mastermind</h1>
+<!doctype html>
 
-<button onclick="init();">Nouvelle Partie</button>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
 
-<div id="answer">
-	<span id="a_1"></span>
-	<span id="a_2"></span>
-	<span id="a_3"></span>
-	<span id="a_4"></span>
-</div>
-<div id="game">
-</div>
+		<title>MasterMind Game</title>
+		<!-- <meta name="description" content="The HTML5 Herald">
+		<meta name="author" content="SitePoint"> -->
 
-<div id="button">
-</div>
+		<link rel="stylesheet" href="css/style.css">
 
+		<!--[if lt IE 9]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+		<![endif]-->
+	</head>
 
-<script>
-	var colors = [
-		'red',
-		'blue',
-		'green',
-		'yellow',
-		'orange',
-		'violet',
-		'brown',
-		'grey'
-	];
-	
-	var game = [];
+	<body>
+		<h1>Mastermind</h1>
 
-	var nbProposition = 1;
-	var proposition = [];
+		<button onclick="init();">Nouvelle Partie</button>
+
+		<div id="answer">
+			<span id="a_1"></span>
+			<span id="a_2"></span>
+			<span id="a_3"></span>
+			<span id="a_4"></span>
+		</div>
+
+		<div id="game"></div>
+
+		<div id="button" class="clearfix"></div>
 
 
-	function init() {
-		for (var i = 4; i >= 1; i--) {
-			var n = Math.floor(Math.random() * colors.length);
-			var color = colors[n];
-			game.push(color);
-		}
+		<script>
+			var colors = [
+				'red',
+				'blue',
+				'green',
+				'yellow',
+				'orange',
+				'violet',
+				'brown',
+				'grey'
+			];
 
-		document.getElementById("a_1").innerHTML = "?";
-		document.getElementById("a_2").innerHTML = "?";
-		document.getElementById("a_3").innerHTML = "?";
-		document.getElementById("a_4").innerHTML = "?";
+			var game = [];
 
-		for (var i = 10; i >= 1; i--) {
-			var prop = document.createElement("div");
-			var pattern = i+" - <span id='"+i+"_1'></span><span id='"+i+"_2'></span><span id='"+i+"_3'></span><span id='"+i+"_4'></span><span id='res_"+i+"'></span>";
+			var nbProposition = 1;
+			var proposition = [];
 
-			prop.setAttribute("id", "proposition_"+i);
 
-			prop.innerHTML = pattern;
+			function init() {
+				for (var i = 4; i >= 1; i--) {
+					var n = Math.floor(Math.random() * colors.length);
+					var color = colors[n];
+					game.push(color);
+				}
 
-			document.getElementById("game").appendChild(prop);
-		}
+				document.getElementById("a_1").innerHTML = "?";
+				document.getElementById("a_1").setAttribute("class", "hidden button_colors");
+				document.getElementById("a_2").innerHTML = "?";
+				document.getElementById("a_2").setAttribute("class", "hidden button_colors");
+				document.getElementById("a_3").innerHTML = "?";
+				document.getElementById("a_3").setAttribute("class", "hidden button_colors");
+				document.getElementById("a_4").innerHTML = "?";
+				document.getElementById("a_4").setAttribute("class", "hidden button_colors");
 
-		for (var i = colors.length - 1; i >= 0; i--) {
-			var buttonColors = document.createElement("div");
-			var pattern = colors[i];
+				for (var i = 10; i >= 1; i--) {
+					var prop = document.createElement("div");
+					var pattern = i+" - <span id='"+i+"_1'></span><span id='"+i+"_2'></span><span id='"+i+"_3'></span><span id='"+i+"_4'></span><span id='res_"+i+"' class='results'></span>";
 
-			buttonColors.setAttribute("id", "button_"+i);
-			buttonColors.setAttribute("onclick", "add("+i+")");
-			buttonColors.setAttribute("class", "button_colors");
+					prop.setAttribute("id", "proposition_"+i);
 
-			buttonColors.innerHTML = pattern;
+					prop.innerHTML = pattern;
 
-			document.getElementById("button").appendChild(buttonColors);
-		}
-	}
+					document.getElementById("game").appendChild(prop);
+				}
 
-	function add(color){
-		// If user already set 4 colors
-		if (proposition.length != 4) {
-			var pos = proposition.length+1;
+				for (var i = colors.length - 1; i >= 0; i--) {
+					var buttonColors = document.createElement("div");
+					var pattern = colors[i];
 
-			document.getElementById(nbProposition+"_"+pos).innerHTML = colors[color];
+					buttonColors.setAttribute("id", "button_"+i);
+					buttonColors.setAttribute("onclick", "add("+i+")");
+					buttonColors.setAttribute("class", "button_colors "+pattern);
 
-			proposition.push(colors[color]);
+					document.getElementById("button").appendChild(buttonColors);
+				}
+			} // init()
 
-			// 4 colors are set, submit button appears
-			if (proposition.length == 4) {
-				var submitButton = document.createElement("div");
-				var submitButtonContent = "<button>Soumettre</button>";
+			function add(color){
+				// If user already set 4 colors
+				if (proposition.length != 4) {
+					var pos = proposition.length+1;
 
-				submitButton.setAttribute("id", "submit");
-				submitButton.setAttribute("onclick", "submit()");
+					// document.getElementById(nbProposition+"_"+pos).innerHTML = colors[color];
 
-				submitButton.innerHTML = submitButtonContent;
+					document.getElementById(nbProposition+"_"+pos).setAttribute("class", "button_colors "+colors[color]);
 
-				document.getElementById("button").appendChild(submitButton);
-			}
-		}
-	}
+					proposition.push(colors[color]);
 
-	function submit(){
-		var res = [];
-		for (var i = 0; i < proposition.length; i++) {
-			// Place is right, color is right
-			if (proposition[i] == game[i]) {
-				res.push(1);
-			// Place is wrong, color is right, just somewhere else
-			}else if(game.indexOf(proposition[i]) > 0){
-				console.log(game.indexOf(proposition[i]));
-				res.push(2);
-			// Color is not right for this game
-			}else{
-				res.push(0);
-			}
-		}
+					// 4 colors are set, submit button appears
+					if (proposition.length == 4) {
+						var submitButton = document.createElement("div");
+						var submitButtonContent = "<button>Soumettre</button>";
 
-		displayResult(res);
+						submitButton.setAttribute("id", "submit");
+						submitButton.setAttribute("onclick", "submit()");
 
-		nbProposition++;
-		proposition = [];
-	}
+						submitButton.innerHTML = submitButtonContent;
 
-	function displayResult(result) {
-		var resHTML = "";
-		for (var i = 0; i < result.length; i++) {
-			if (result[i] == 1) {
-				resHTML = resHTML+"<span>ROUGE</span>";
-			}else if(result[i] == 2){
-				resHTML = resHTML+"<span>BLANC</span>";
-			}else{
-				resHTML = resHTML+"<span></span>";
-			}
-		}
+						document.getElementById("button").appendChild(submitButton);
+					}
+				}
+			} // add(color)
 
-		var result = document.createElement("div");
+			function submit(){
+				var res = [];
+				for (var i = 0; i < proposition.length; i++) {
+					// Place is right, color is right
+					if (proposition[i] == game[i]) {
+						res.push(1);
+					// Place is wrong, color is right, just somewhere else
+					}else if(game.indexOf(proposition[i]) > 0){
+						res.push(2);
+					// Color is not right for this game
+					}else{
+						res.push(0);
+					}
+				}
 
-		result.innerHTML = resHTML;
+				displayResult(res);
 
-		document.getElementById("res_"+nbProposition).appendChild(result);
+				nbProposition++;
+				proposition = [];
+			} // submit();
 
-		// When result is display, remove submit button 
-		var buttonSubmit = document.getElementById("submit");
-		buttonSubmit.outerHTML = "";
-		delete buttonSubmit;
-	}
+			function displayResult(result) {
+				var resHTML = "";
+				for (var i = 0; i < result.length; i++) {
+					if (result[i] == 1) {
+					resHTML = resHTML+"<span>ROUGE</span>";
+					}else if(result[i] == 2){
+					resHTML = resHTML+"<span>BLANC</span>";
+					}else{
+					resHTML = resHTML+"<span>EMPTY</span>";
+					}
 
-</script>
+					if (i == 1) {
+						resHTML = resHTML+'<br>';
+					}
+				}
+
+				var result = document.createElement("div");
+
+				result.innerHTML = resHTML;
+
+				document.getElementById("res_"+nbProposition).appendChild(result);
+
+				// When result is display, remove submit button 
+				var buttonSubmit = document.getElementById("submit");
+				buttonSubmit.outerHTML = "";
+				delete buttonSubmit;
+			} // displayResult(result);
+
+		</script>
+	</body>
+</html>

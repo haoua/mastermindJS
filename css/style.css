@@ -1,0 +1,50 @@
+/* ---- GENERAL ---- */
+.clearfix:after{
+	content:"";
+	display:block;
+	clear:both;
+}
+
+/* ---- ANSWER ---- */
+#answer span{
+    box-sizing: border-box;
+    padding: 14px 0;
+	text-align: center;
+}
+
+#answer .hidden{
+	border: 1px solid #000;
+}
+
+
+/* ---- PION COULEUR ---- */
+#button{
+	width: 400px;
+}
+
+#button .button_colors{
+	float: right;
+}
+
+.button_colors{
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.red{background-color: #c0392b;}
+.blue{background-color: #2980b9;}
+.green{background-color: #27ae60;}
+.yellow{background-color: #f1c40f;}
+.orange{background-color: #e67e22;}
+.violet{background-color: #9b59b6;}
+.brown{background-color: #594636;}
+.grey{background-color: #95a5a6;}
+
+
+
+/* ---- RESULT ---- */
+.results{
+	display: inline-block;
+}
