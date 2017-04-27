@@ -1,4 +1,14 @@
 /* ---- GENERAL ---- */
+html{
+	height: 100%;
+	background-color: #ebebeb;
+}
+
+.wrapper{
+	width: 960px;
+	margin: 0 auto;
+}
+
 .clearfix:after{
 	content:"";
 	display:block;
@@ -9,11 +19,20 @@
 
 .left{float: left;}
 
+h1{
+	text-align: center;
+}
+
 
 /* ---- ANSWER ---- */
+#answer{
+	width: 255px;
+	margin: 15px auto;
+}
+
 #answer span{
     box-sizing: border-box;
-    padding: 14px 0;
+    line-height: 30px;
 	text-align: center;
 }
 
@@ -24,7 +43,7 @@
 
 /* ---- PION COULEUR ---- */
 #button{
-	width: 460px;
+	width: 550px;
 }
 
 #button .button_colors{
@@ -32,10 +51,11 @@
 }
 
 .button_colors{
-	width: 50px;
-	height: 50px;
+	width: 30px;
+	height: 30px;
 	border-radius: 50%;
 	display: inline-block;
+	margin: 0 5px;
 }
 
 .red{background-color: #c0392b;}
@@ -50,14 +70,21 @@
 .empty{
 	border: 1px solid #000;
 	text-align: center;
-	line-height: 50px;
+	line-height: 30px;
 }
 
 
 
 /* ---- GAME ---- */
 #game div{
-	height: 50px;
+	height: 30px;
+}
+
+.proposition_row {
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background: black;
+    padding: 10px;
 }
 
 
@@ -71,15 +98,71 @@
 	width: 10px;
 	height: 10px;
 	border-radius: 50%;
+	margin-left: 7px;
 }
 
 .res_red{background-color: red;}
 .res_white{background-color: lightgrey;}
-.res_null{background-color: whitelightgrey;}
+
+.res_null{
+	border: 1px solid lightgrey;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
 
 
 /* ---- SIDEBAR ---- */
 #sidebar{
 	float: left;
-	width: 150px;
+	width: 320px;
+	margin-left: 50px;
+	text-align: justify;	
+}
+
+
+/* ---- BOUTON ---- */
+button{
+	background: none;
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 10px 10px;
+	display: inline-block;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#cancel, #submit{
+	display: inline;
+	margin-right: 15px;
+}
+
+#cancel button{
+	color: #d9534f;
+	border-color: #d9534f;
+}
+
+#cancel button:hover{
+	color: #fff;
+	background-color: #d9534f;
+}
+
+#submit button{
+	color: #5cb85c;
+	border-color: #5cb85c;
+}
+
+#submit button:hover{
+	color: #fff;
+	background-color: #5cb85c;
+}
+
+#start{
+	color: #1abc9c;
+	border-color: #1abc9c;
+}
+
+#start:hover{
+	color: #fff;
+	background-color: #1abc9c;
 }
