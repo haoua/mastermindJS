@@ -73,6 +73,11 @@ h1{
 	line-height: 30px;
 }
 
+.proposition_row .empty{
+	border: 1px solid #fff;
+	color: #fff;
+}
+
 
 
 /* ---- GAME ---- */
@@ -132,17 +137,17 @@ button{
 	cursor: pointer;
 }
 
-#cancel, #submit{
+#cancel, #submit, #give_up_box{
 	display: inline;
 	margin-right: 15px;
 }
 
-#cancel button{
+#cancel button, #give_up{
 	color: #d9534f;
 	border-color: #d9534f;
 }
 
-#cancel button:hover{
+#cancel button:hover, #give_up:hover{
 	color: #fff;
 	background-color: #d9534f;
 }

@@ -1,0 +1,18 @@
+{
+	"rulesgeneral": "En lançant une partie, l'ordinateur tire une combinaison des quatre couleurs. A vous de retrouver la combinaison de couleur et son ordre.",
+	"ruleshelp": "Les <strong>pions réponses rouges</strong> vous indique que vous avez trouvé la bonne couleur à la bonne position. Les <strong>pions réponses blancs</strong> vous indique que la couleur n'est pas à la bonne position mais qu'elle est bien présente dans la combinaison. Un <strong>emplacement vide</strong> (cercle blanc) indique que la couleur n'est pas présente dans la combinaison.",
+	"rulesbylevel": [{
+			"level": "facile",
+			"rule": "les pions réponses sont dans l'ordre des pions de votre combinaison."
+		},
+		{
+			"level": "difficile",
+			"rule": "les pions réponses sont placés en ordre aléatoire."
+		},
+		{
+			"level": "extrême",
+			"rule": "les pions réponses sont placés en ordre aléatoire, des cases peuvent être vide."
+		}
+	]
+
+}

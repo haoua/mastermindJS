@@ -15,6 +15,39 @@ var nbProposition = 1;
 var proposition = [];
 
 var level = 0;
+var nbLevel = 3;
+
+var data = "";
+
+function loadJSON(file, callback) {   
+
+	var xobj = new XMLHttpRequest();
+	xobj.overrideMimeType("application/json");
+	xobj.open('GET', file, true); // Replace 'my_data' with the path to your file
+	xobj.onreadystatechange = function () {
+		if (xobj.readyState == 4 && xobj.status == "200") {
+		// Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+			callback(xobj.responseText);
+		}
+	};
+
+	xobj.send(null);  
+}
+
+
+function load() {
+	loadJSON("data.json", function(response) {
+		// Once the file is loaded
+		data = JSON.parse(response);
+		document.getElementById("regles").innerHTML = "<p>"+data.rulesgeneral+"</p>";
+		document.getElementById("regles_help").innerHTML = "<p>"+data.ruleshelp+"</p>";
+		for (var i = 0; i <= nbLevel - 1; i++) {
+			document.getElementById("regle_by_level").innerHTML = document.getElementById("regle_by_level").innerHTML + 'Pour le niveau <strong>'+data.rulesbylevel[i]['level']+'</strong> : '+data.rulesbylevel[i]['rule']+'<br>';	
+		}
+	});
+}
+
+load();
 
 
 function init() {
@@ -75,8 +108,21 @@ function init() {
 
 	
 		document.getElementById("button").appendChild(buttonColors);
-
 	}
+
+	var giveUpButton = document.createElement("button");
+	var giveUpButtonContent = "Abandonner";
+
+	giveUpButton.setAttribute("id", "give_up");
+	giveUpButton.setAttribute("onclick", "giveUp()");
+
+	giveUpButton.innerHTML = giveUpButtonContent;
+
+	document.getElementById("give_up_box").appendChild(giveUpButton);
+
+	document.getElementById("level").disabled = true;
+
+
 } // init()
 
 function add(color){
@@ -105,7 +151,7 @@ function add(color){
 
 		if (proposition.length == 1){
 			var cancelButton = document.createElement("div");
-			var cancelButtonContent = "<button>Annuler</button>";
+			var cancelButtonContent = "<button>Remettre à zéro</button>";
 
 			cancelButton.setAttribute("id", "cancel");
 			cancelButton.setAttribute("onclick", "cancel()");
@@ -173,7 +219,7 @@ function displayResult(result) {
 		displayWin();
 	}else{
 		if (nbProposition == 10) {
-			displayLoose();
+			displayLose();
 		}else{
 			var audio = new Audio('sound/error.mp3');
 			audio.play();
@@ -200,7 +246,7 @@ function displayWin() {
 	displayAnswer();
 } //displayWin();
 
-function displayLoose() {
+function displayLose() {
 	var audio = new Audio('sound/lose.wav');
 	audio.play();
 	alert("you loose !");
@@ -285,6 +331,10 @@ function cancel() {
 } // cancel()
 
 function displayAnswer() {
+	// Once answer is displaied, either because of win, lose or giving up, player can change level
+	document.getElementById("level").disabled = false;
+
+
 	document.getElementById("a_1").innerHTML = "";
 	document.getElementById("a_1").classList.add(game[0]);
 	document.getElementById("a_1").classList.remove('hidden');
@@ -300,4 +350,11 @@ function displayAnswer() {
 	document.getElementById("a_4").innerHTML = "";
 	document.getElementById("a_4").classList.add(game[3]);
 	document.getElementById("a_4").classList.remove('hidden');
+}
+
+function giveUp() {
+	// alert("Vous voulez vraiment abandonner ?");
+	if (confirm('Êtes-vous sûr de vouloir abandonner ?')) {
+		displayLose();
+	}
 }
