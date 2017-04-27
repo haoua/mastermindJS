@@ -13,6 +13,8 @@
 		<!--[if lt IE 9]>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
 		<![endif]-->
+		<script data-main="scripts/main" src="scripts/require.js"></script>
+		
 	</head>
 
 	<body>
@@ -27,7 +29,7 @@
 						<option value="3">Extrême</option>
 					</select>
 
-					<button onclick="init();" id="start">Nouvelle Partie</button>
+					<button onclick="(function() { require('app').init() })()" id="start">Nouvelle Partie</button>
 					<div id="give_up_box"></div>
 
 
@@ -54,6 +56,5 @@
 		</div>
 
 
-		<script src="js/scripts.js"></script>
 	</body>
 </html>
