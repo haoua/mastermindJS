@@ -1,6 +1,12 @@
-require([
-    'app', // app/app.js
-], function(App) {
-    // Callback executé une fois app.js chargé
-    App.initialize();
+requirejs.config({
+    baseUrl: "scripts/lib",
+    paths: {
+    	params : 'params',
+    	shootColor : 'shootColor'
+    }
+});
+
+
+requirejs(["app"], function(app) {
+	requirejs(['app']);
 });
