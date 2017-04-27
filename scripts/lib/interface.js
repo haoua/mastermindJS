@@ -1,4 +1,4 @@
-define(['params'], function (params) {
+define(['params', 'display'], function (params, display) {
 	return {
 	  add : function (color) {
 	    // If user already set 4 colors
@@ -55,7 +55,7 @@ define(['params'], function (params) {
 	  	if (params.level != 1) {
 	  		shuffleResult(res);
 	  	}else{
-	  		displayResult(res);					
+	  		display.displayResult(res);					
 	  	}
 
 

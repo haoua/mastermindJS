@@ -3,7 +3,8 @@ requirejs.config({
     paths: {
     	params : 'params',
     	shootColor : 'shootColor',
-    	interface : 'interface'
+    	interface : 'interface',
+    	display : 'display'
     }
 });
 
