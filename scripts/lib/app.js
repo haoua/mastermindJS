@@ -1,28 +1,10 @@
 define(['shootColor', 'params'], function (shootColor, params) {  
-    var colors = [
-      'red',
-      'blue',
-      'green',
-      'yellow',
-      'orange',
-      'violet',
-      'brown',
-      'grey'
-    ];
-
-    var game = [];
-
-    var nbProposition = 1;
-    var proposition = [];
-
-    var level = 0;
-
     var levelSelect = document.getElementById("level");
-    level = levelSelect.options[levelSelect.selectedIndex].value;
+    params.level = levelSelect.options[levelSelect.selectedIndex].value;
 
-    if (game.length > 0) {
+    if (params.game.length > 0) {
       // if a game config is found, reset settings + display
-      reset();
+      params.reset();
     }
 
     // Extreme mode can have a cell empty
@@ -32,7 +14,10 @@ define(['shootColor', 'params'], function (shootColor, params) {
 
     // REAL INIT ---------------
     for (var i = 4; i >= 1; i--) {
-      shootColor.shootColor().color;
+      var c = shootColor.shootColor();
+      if (c == -1) {
+        shootColor.shootColor();
+      }
       // params.game.push(c);
     }
 
@@ -58,12 +43,13 @@ define(['shootColor', 'params'], function (shootColor, params) {
       document.getElementById("game").appendChild(prop);
     }
 
-    for (var i = colors.length - 1; i >= 0; i--) {
+    for (var i = params.colors.length - 1; i >= 0; i--) {
       var buttonColors = document.createElement("div");
-      var pattern = colors[i];
+      var pattern = params.colors[i];
 
       buttonColors.setAttribute("id", "button_"+i);
-      buttonColors.setAttribute("onclick", "add("+i+")");
+      buttonColors.setAttribute("onclick", "(function() { require('interface').add("+i+") })()");
+
       buttonColors.setAttribute("class", "button_colors "+pattern);
 
       if (pattern == "empty") {

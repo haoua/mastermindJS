@@ -7,7 +7,7 @@ define(['params'], function (params) {
 
         // Prevent color from being twice in game
         if (params.game.indexOf(color) != -1) {
-          shootColor();
+          return "-1";
         }else{
           params.game.push(color);
 
